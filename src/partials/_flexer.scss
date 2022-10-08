@@ -1,0 +1,20 @@
+@mixin Flexer($direction, $wrap, $justify, $align) {
+    display: flex;
+    flex-flow: $direction $wrap;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin FlexRow($wrap, $justify, $align) {
+    display: flex;
+    flex-flow: row $wrap;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin FlexColumn($wrap, $justify, $align) {
+    display: flex;
+    flex-flow: column $wrap;
+    justify-content: $justify;
+    align-items: $align;
+}

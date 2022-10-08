@@ -1,0 +1,122 @@
+@import "./partials/flexer";
+
+$black: #110f0f;
+$black-light: #201D1D;
+$white: #D3D3D3;
+$grey-light: #757575;
+$grey: #464646;
+
+$elevatorHeight: 550px;
+$elevatorWidth: 150px;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  background-color: $black;
+  color: $white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/**** *****/
+
+
+
+.main-cont{
+  width: 100%;
+  background-color: $grey;
+  padding-top: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+
+.elevator-control {
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  @include FlexRow(nowrap, center, center);
+  div{
+    @include FlexRow(wrap, space-between, center);
+    width: 45%;
+    .ground{
+      flex-basis: 100%;
+    }
+    .button{
+      width: 35px;
+      height: 35px;
+      margin: 3px;
+      background-color: purple;
+      @include FlexRow(nowrap, center, center)
+    }
+    .button:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.elevator-cont {
+  height: $elevatorHeight;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.elevator{
+  width: $elevatorWidth;
+  .floor, .shaft{
+    width: 100%;
+    height: calc($elevatorHeight / 9);
+  }
+  .floor{
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .shaft{
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+  .cabin {
+    width: 20px;
+    height: calc($elevatorHeight / 18);
+    background-color: aqua;
+  }
+}
+
+.floors-cont{
+  width: calc($elevatorWidth * 2);
+  height: $elevatorHeight;
+  background-color: red;
+  .floor, .shaft{
+    width: 100%;
+    height: calc($elevatorHeight / 9); 
+  }
+  .floor{
+    background-color: #201D1D;
+    @include FlexRow(nowrap, space-between, center);
+    .button-cont{
+      .up, .down{
+        width: 25px;
+        height: 25px;
+        color: black;
+        text-align: center;
+      }
+      .up{
+        background-color: burlywood;
+      }
+      .down{
+        background-color: lightblue;
+      }
+    }
+    .button-cont:hover{
+      cursor: pointer;
+    }
+  }
+}
