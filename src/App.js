@@ -9,52 +9,35 @@ function App() {
   const intervalRef = useRef(null)
 
   const [elevatorLocation, setElevatorLocation] = useState(0)
-  const [isOpen, setIsOpen] = useState(true)
-  const [activeRequest, setActiveRequest] = useState(null)
+  const [activeRequest, setActiveRequest] = useState()
   const [queue, setQueue] = useState([])
-  console.log("queue => ", queue)
 
 
 
 
-  function callElevator(floor) {
-    if(floor === elevatorLocation){
-      return console.log("Elevator already at location!")
+  function callElevator(floorNr) {
+    if(floorNr === elevatorLocation){
+      return null
     } else {
-      if(queue.includes(floor)){
-        return console.log("Called floor already in queue!")
+      if(queue.includes(floorNr)){
+        return null
       } else {
-        if(queue.length === 0 && !activeRequest){
-          const currentLocation = elevatorLocation
-          const nextLocation = floor
-          setActiveRequest(floor)
-          moveElevator(currentLocation, nextLocation)
-        } else {
-          setQueue(prevQueue => [...prevQueue, floor])
-        }
+        setQueue(prevQueue => [...prevQueue, floorNr])
       }
     }
   }
-
-  function checkQueue() {
-    if(queue.length === 0 && !activeRequest){
-      console.log("No items in queue & no activeRequest, interval cleared!")
-      clearInterval(intervalRef.current)
-    } else {
-      const currentLocation = elevatorLocation
-      const nextLocation = queue[0]
-      moveElevator(currentLocation, nextLocation)
-    }
-  }
+  console.log("queue => ", queue)
 
 
   function moveElevator(currentLocation, nextLocation){
+    setActiveRequest(nextLocation)
     let counter = 0
     if(currentLocation > nextLocation){
       const difference = currentLocation - nextLocation
       const loop = setInterval(() => {
         if(counter === (difference * 2) - 1){
           clearInterval(loop)
+          cleanupQueue()      
         }
         setElevatorLocation(prevLocation => prevLocation - 0.5)
         counter++
@@ -64,24 +47,48 @@ function App() {
       const loop = setInterval(() => {
         if(counter === (difference * 2) - 1){
           clearInterval(loop)
+          cleanupQueue()
         }
         setElevatorLocation(prevLocation => prevLocation + 0.5)
         counter++
       }, 2000)
     }
-    setQueue(prevQueue => prevQueue.filter(item => item !== nextLocation))
+  }
+
+  function checkQueue() {
+    // if(activeRequest){
+    //   const currentLocation = elevatorLocation
+    //   const nextLocation = activeRequest
+    //   moveElevator(currentLocation, nextLocation)
+    // }
+    if(queue.length === 0) {
+      console.log("No requests in queue")
+    } else {
+      const currentLocation = elevatorLocation
+      const nextLocation = queue[0]
+      setActiveRequest(nextLocation)
+      moveElevator(currentLocation, nextLocation)
+    }
+  }
+
+  function cleanupQueue(){
+    const prevRequest = queue[0]
+    setQueue(prevQueue => prevQueue.filter(item => item !== prevRequest))
+    setActiveRequest()
   }
   
   useEffect(() => {
-    const queueInterval = setInterval(() => {
-      console.log("useEffect | Checking queue and moving elevator accoridingly!")
-      checkQueue()
-    }, 2000);
-    intervalRef.current = queueInterval
-    return () => {
-      clearInterval(intervalRef.current)
+    if(queue.length > 0){
+      const queueInterval = setInterval(() => {
+        checkQueue()
+      }, 2500);
+  
+      intervalRef.current = queueInterval
+      return () => {
+        clearInterval(intervalRef.current)
+      }
     }
-  }, [])
+  }, [queue])
 
  
 
