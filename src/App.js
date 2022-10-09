@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react"
+import useInterval from "./hooks/useInterval"
 import { nanoid } from 'nanoid'
 
 function App() {
@@ -6,38 +7,36 @@ function App() {
   const floors = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
   const revFloors = floors.reverse()
 
-  const intervalRef = useRef(null)
-
   const [elevatorLocation, setElevatorLocation] = useState(0)
   const [activeRequest, setActiveRequest] = useState()
   const [queue, setQueue] = useState([])
 
-
-
-
   function callElevator(floorNr) {
     if(floorNr === elevatorLocation){
-      return null
+      return
     } else {
       if(queue.includes(floorNr)){
-        return null
+        return
       } else {
         setQueue(prevQueue => [...prevQueue, floorNr])
       }
     }
   }
-  console.log("queue => ", queue)
-
-
-  function moveElevator(currentLocation, nextLocation){
+  
+  function moveElevator(){
+    const currentLocation = elevatorLocation
+    const nextLocation = queue[0]
+    setQueue(prevQueue => prevQueue.filter(item => item !== nextLocation)) 
     setActiveRequest(nextLocation)
+    console.log("moveElevator() | QueueItem cleared, activeRequest set!")
     let counter = 0
     if(currentLocation > nextLocation){
       const difference = currentLocation - nextLocation
       const loop = setInterval(() => {
         if(counter === (difference * 2) - 1){
           clearInterval(loop)
-          cleanupQueue()      
+          setActiveRequest() 
+          console.log("ActiveRequest cleared")  
         }
         setElevatorLocation(prevLocation => prevLocation - 0.5)
         counter++
@@ -47,7 +46,8 @@ function App() {
       const loop = setInterval(() => {
         if(counter === (difference * 2) - 1){
           clearInterval(loop)
-          cleanupQueue()
+          setActiveRequest()  
+          console.log("ActiveRequest cleared")
         }
         setElevatorLocation(prevLocation => prevLocation + 0.5)
         counter++
@@ -55,49 +55,33 @@ function App() {
     }
   }
 
-  function checkQueue() {
-    // if(activeRequest){
-    //   const currentLocation = elevatorLocation
-    //   const nextLocation = activeRequest
-    //   moveElevator(currentLocation, nextLocation)
-    // }
-    if(queue.length === 0) {
-      console.log("No requests in queue")
-    } else {
-      const currentLocation = elevatorLocation
-      const nextLocation = queue[0]
-      setActiveRequest(nextLocation)
-      moveElevator(currentLocation, nextLocation)
-    }
+  function clearQueue(){
+    setQueue([])
   }
-
-  function cleanupQueue(){
-    const prevRequest = queue[0]
-    setQueue(prevQueue => prevQueue.filter(item => item !== prevRequest))
-    setActiveRequest()
-  }
-  
-  useEffect(() => {
+ 
+  useInterval(() => {
     if(queue.length > 0){
-      const queueInterval = setInterval(() => {
-        checkQueue()
-      }, 2500);
-  
-      intervalRef.current = queueInterval
-      return () => {
-        clearInterval(intervalRef.current)
+      if(!activeRequest && activeRequest !== 0){
+        console.log("useInterval() | no activeRequest, moving elevator!")
+        moveElevator()
+      } else {
+        console.log("useInterval() | Active request already being handled")
       }
     }
-  }, [queue])
-
- 
+  }, 2000)
 
   return (
     <div className="main-cont">
+    <div className="queue">
+      <p>ActiveRequest: {activeRequest}</p>
+      <p>Queue: </p>
+      {queue.map(item => (<p>{item}</p>))}
+    </div>
       <div className="elevator-control">
+        <button onClick={clearQueue}>Clear queue</button>
         <div>
           <div onClick={() => callElevator(3)} className="button">3</div>
-          <div onClick={() => callElevator(4)} className="button">4</div>
+          <div onClick={() => setElevatorLocation(4)} className="button">4</div>
           <div onClick={() => callElevator(1)} className="button">1</div>
           <div onClick={() => callElevator(2)} className="button">2</div>
           <div onClick={() => callElevator(0)} className="button ground">0</div>
