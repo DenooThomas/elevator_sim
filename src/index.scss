@@ -5,8 +5,9 @@ $black-light: #201D1D;
 $white: #D3D3D3;
 $grey-light: #757575;
 $grey: #464646;
+$yellow: #FFC000;
 
-$elevatorHeight: 550px;
+$elevatorHeight: 540px;
 $elevatorWidth: 150px;
 
 * {
@@ -24,12 +25,14 @@ body {
 
 /**** *****/
 
-
+#root {
+  @include FlexRow(nowrap, center, center);
+}
 
 .main-cont{
   width: 100%;
+  min-height: 80vh;
   background-color: $grey;
-  padding-top: 50px;
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
@@ -38,7 +41,7 @@ body {
 .elevator-control {
   width: 200px;
   height: 200px;
-  background-color: red;
+  background-color: $black;
   @include FlexRow(nowrap, center, center);
   div{
     @include FlexRow(wrap, space-between, center);
@@ -50,8 +53,16 @@ body {
       width: 35px;
       height: 35px;
       margin: 3px;
-      background-color: purple;
       @include FlexRow(nowrap, center, center)
+    }
+    .open {
+      background-color: green;
+    }
+    .closed {
+      background-color: red;
+    }
+    .activeRequest {
+      background-color: $yellow;
     }
     .button:hover {
       cursor: pointer;
@@ -72,22 +83,27 @@ body {
     height: calc($elevatorHeight / 9);
   }
   .floor{
-    background-color: blue;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    background-color: $grey-light;
+    @include FlexRow(nowrap, center, flex-end);
+    border: 1px solid $black-light;
+
   }
   .shaft{
-    background-color: brown;
+    background-color: $black-light;
     display: flex;
     justify-content: center;
     align-items: center
   }
   .cabin {
-    width: 20px;
-    height: calc($elevatorHeight / 18);
-    background-color: aqua;
+    width: 35px;
+    height: 65%;
   }
+  .open {
+    background-color: green;
+  }
+  .closed {
+    background-color: red;
+}
 }
 
 .floors-cont{
@@ -99,8 +115,8 @@ body {
     height: calc($elevatorHeight / 9); 
   }
   .floor{
-    background-color: #201D1D;
     @include FlexRow(nowrap, space-between, center);
+    background-color: $grey-light;
     .button-cont{
       .up, .down{
         width: 25px;
@@ -118,5 +134,8 @@ body {
     .button-cont:hover{
       cursor: pointer;
     }
+  }
+  .shaft{
+    background-color: $black-light;
   }
 }
