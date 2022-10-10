@@ -16,35 +16,27 @@ function App() {
   const [isWaiting, setIsWaiting] = useState(false)
   const [queue, setQueue] = useState([])
 
-  function callElevator(floorNr, origin) {
-    if(isWaiting && !activeRequest){
-      setIsWaiting(false)
+  function checkActiveRequest(){
+    if(!activeRequest && activeRequest !== 0){
+      return true
     }
-    if(origin === 'elevator'){
-      if(isWaiting){
-        if(floorNr === elevatorLocation && isDoorOpen){
-          return
-        } else {
-          if(queue.includes(floorNr)){
-            return
-          } else {
-            setQueue(prevQueue => [...prevQueue, floorNr])
-          }
-        }
-      }
+  }
+
+  function callElevator(floorNr) {
+    if(isWaiting && checkActiveRequest()){
+      setTimeout(() => {
+        setIsWaiting(false)
+      }, elevatorWaitTime)
     }
-    else if(origin === 'floor'){
-      if(floorNr === elevatorLocation && isDoorOpen){
+    if(floorNr === elevatorLocation && isDoorOpen){
+      return
+    } else {
+      if(queue.includes(floorNr)){
         return
       } else {
-        if(queue.includes(floorNr)){
-          return
-        } else {
-          setQueue(prevQueue => [...prevQueue, floorNr])
-        }
+        setQueue(prevQueue => [...prevQueue, floorNr])
       }
-    } 
-    
+    }
   }
   
   function moveElevator(){
@@ -100,18 +92,11 @@ function App() {
     }
   }
 
-  function clearQueue(){
-    setQueue([])
-  }
- 
   useInterval(() => {
-    console.log("useInterval() ran")
     if(queue.length > 0){
-        if(!activeRequest && activeRequest !== 0){
-          console.log("useInterval() | no activeRequest, moving elevator!")
+        if(checkActiveRequest()){
           moveElevator()
         } else if(activeRequest) {
-          console.log("useInterval() | Active request already being handled")
         }
     }
   }, 1000)
@@ -145,8 +130,8 @@ function App() {
           if(Number.isInteger(floor)){
             return (
               <div className="floor">
-              <div onClick={() => callElevator(floor, 'floor')} className="button-cont">
-                  <div className={`button ${queue.includes(floor) && 'on'}`}></div>
+              <div onClick={() => callElevator(floor)} className="button-cont">
+                  <div className={`button ${queue.includes(floor) ? 'active' : 'inactive'}`}></div>
                 </div> 
                 <div className={`cabin ${(isDoorOpen && floor === elevatorLocation) ? 'present' : 'absent'}`} />
               </div>)
@@ -160,10 +145,9 @@ function App() {
         </div>
       </div>
       <div className={`elevator-control ${isDoorOpen ? 'open' : 'closed'}`}>
-        <button onClick={clearQueue}>Clear queue</button>
         <div>
           {elevatorButtons.map(floor => {
-            return (<div onClick={() => callElevator(floor, 'elevator')} className={`button ${queue.includes(floor) ? 'open' : 'closed'} ${floor === activeRequest && 'activeRequest'}`}>{floor}</div>)
+            return (<div onClick={() => callElevator(floor)} className={`button ${queue.includes(floor) ? 'active' : 'inactive'} ${floor === activeRequest && 'activeRequest'}`}>{floor}</div>)
           })}
           <p>{elevatorLocation}</p>
         </div>

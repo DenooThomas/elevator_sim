@@ -35,37 +35,7 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
   align-items: flex-end;
 }
 
-.elevator-control {
-  width: 200px;
-  height: 200px;
-  background-color: $black;
-  @include FlexRow(nowrap, center, center);
-  div{
-    @include FlexRow(wrap, space-between, center);
-    width: 45%;
-    .ground{
-      flex-basis: 100%;
-    }
-    .button{
-      width: 35px;
-      height: 35px;
-      margin: 3px;
-      @include FlexRow(nowrap, center, center)
-    }
-    .open {
-      background-color: green;
-    }
-    .closed {
-      background-color: red;
-    }
-    .activeRequest {
-      background-color: $yellow;
-    }
-    .button:hover {
-      cursor: pointer;
-    }
-  }
-}
+
 
 .building-cont {
   box-sizing: content-box;
@@ -74,12 +44,12 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
   display: flex;
   flex-flow: row nowrap;
   border: 6px solid $grey-light;
+  border-radius: 5px 5px 0 0;
 }
 
 .floors-cont{
   width: 100%;
   height: $buildingHeight;
-  background-color: red;
   .floor, .shaft{
     width: 100%;
     height: calc($buildingHeight / 9); 
@@ -121,12 +91,15 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
         width: 15px;
         height: 15px;
         margin-bottom: 15px;
-        background-color: $red;
+        background-color: $green;
         border: 2px solid $black-light;
         border-radius: 50%;
       }
-      .on {
-        background-color: $green;
+      .active {
+        background-color: $red;
+      }
+      .inactive {
+        background-color: $yellow-light;
       }
     }
     .button-cont:hover{
@@ -144,11 +117,11 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
       background-color: $blue-light;
     }
     .absent {
-      background-color: $grey-dark;
+      background-color: $grey;
     }
   }
   .shaft{
-    background-color: #666666;
+    background-color: #525252;
     @include FlexRow(nowrap, flex-start, flex-start);
     .lightbulb {
       width: 10px;
@@ -161,6 +134,41 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
     }
     .off {
       background-color: $black;
+    }
+  }
+}
+
+.elevator-control {
+  width: 200px;
+  height: 200px;
+  background-color: $black;
+  margin-bottom: calc($buildingHeight / 3);
+  @include FlexRow(nowrap, center, center);
+  div{
+    @include FlexRow(wrap, space-between, center);
+    width: 45%;
+    .ground{
+      flex-basis: 100%;
+    }
+    .button{
+      width: 35px;
+      height: 35px;
+      margin: 3px;
+      color: $black-light;
+      font-weight: 400;
+      @include FlexRow(nowrap, center, center)
+    }
+    .active {
+      background-color: $red;
+    }
+    .inactive {
+      background-color: $yellow-light;
+    }
+    .activeRequest {
+      background-color: $yellow;
+    }
+    .button:hover {
+      cursor: pointer;
     }
   }
 }
