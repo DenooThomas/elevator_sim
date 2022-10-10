@@ -6,7 +6,7 @@
 
 body {
   background-color: #110f0f;
-  color: #D3D3D3;
+  color: #EBEBEB;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -20,8 +20,9 @@ body {
 
 .main-cont {
   width: 100%;
-  min-height: 80vh;
-  background-color: #464646;
+  min-height: 95vh;
+  background: rgb(255, 191, 105);
+  background: linear-gradient(145deg, rgb(255, 191, 105) 11%, rgb(255, 179, 71) 32%, rgb(255, 170, 51) 61%);
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
@@ -68,75 +69,105 @@ body {
   cursor: pointer;
 }
 
-.elevator-cont {
-  height: 540px;
+.building-cont {
+  box-sizing: content-box;
+  width: 500px;
+  height: 594px;
   display: flex;
   flex-flow: row nowrap;
-}
-
-.elevator {
-  width: 150px;
-}
-.elevator .floor, .elevator .shaft {
-  width: 100%;
-  height: 60px;
-}
-.elevator .floor {
-  background-color: #757575;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: flex-end;
-  border: 1px solid #201D1D;
-}
-.elevator .shaft {
-  background-color: #201D1D;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.elevator .cabin {
-  width: 35px;
-  height: 65%;
-}
-.elevator .open {
-  background-color: green;
-}
-.elevator .closed {
-  background-color: red;
+  border: 6px solid #757575;
 }
 
 .floors-cont {
-  width: 300px;
-  height: 540px;
+  width: 100%;
+  height: 594px;
   background-color: red;
 }
 .floors-cont .floor, .floors-cont .shaft {
   width: 100%;
-  height: 60px;
+  height: 66px;
 }
 .floors-cont .floor {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  background-color: #757575;
+  background-color: #07c7c7;
+  padding: 0 20px;
+  height: 66px;
 }
-.floors-cont .floor .button-cont .up, .floors-cont .floor .button-cont .down {
-  width: 25px;
-  height: 25px;
-  color: black;
-  text-align: center;
-}
-.floors-cont .floor .button-cont .up {
-  background-color: burlywood;
-}
-.floors-cont .floor .button-cont .down {
-  background-color: lightblue;
-}
-.floors-cont .floor .button-cont:hover {
-  cursor: pointer;
+.floors-cont .floor p {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 20px;
+  color: #07B0B0;
+  background-color: #EED595;
+  border-radius: 50%;
+  border: 2px solid #EBEBEB;
+  font-size: 26px;
+  font-family: "Michroma", sans-serif;
 }
 .floors-cont .shaft {
+  background-color: #757575;
+}
+
+.elevator {
+  width: 50%;
+}
+.elevator .floor, .elevator .shaft {
+  width: 100%;
+  height: 66px;
+}
+.elevator .floor {
+  background-color: #07B0B0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.elevator .floor .button-cont .button {
+  width: 12px;
+  height: 12px;
+  background-color: #201D1D;
+}
+.elevator .floor .button-cont .on {
+  background-color: green;
+}
+.elevator .floor .button-cont:hover {
+  cursor: pointer;
+}
+.elevator .floor .cabin {
+  width: 35px;
+  height: 40px;
+  margin: 0 20px;
+  transition: all 0.2s ease-out;
+}
+.elevator .floor .present {
+  background-color: green;
+}
+.elevator .floor .absent {
+  background-color: #464646;
+}
+.elevator .shaft {
+  background-color: #666666;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.elevator .shaft .lightbulb {
+  width: 10px;
+  height: 10px;
+  margin: 10px 20px;
+  border-radius: 50%;
+}
+.elevator .shaft .on {
+  background-color: #FFC000;
+}
+.elevator .shaft .off {
   background-color: #201D1D;
 }/*# sourceMappingURL=index.css.map */

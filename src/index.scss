@@ -2,13 +2,21 @@
 
 $black: #110f0f;
 $black-light: #201D1D;
-$white: #D3D3D3;
+$white: #EBEBEB;
+$grey: #666666;
 $grey-light: #757575;
-$grey: #464646;
+$grey-dark: #464646;
 $yellow: #FFC000;
+$yellow-light: #EED595;
+$blue: #07c7c7;
+$blue-dark: #07B0B0;
+$orange-light: #D29F94;
 
-$elevatorHeight: 540px;
-$elevatorWidth: 150px;
+
+$buildingHeight: 594px;
+$buildingWidth: 500px;
+
+$ElevatorFloor: './img/ElevatorFloor.png';
 
 * {
   margin: 0;
@@ -31,8 +39,9 @@ body {
 
 .main-cont{
   width: 100%;
-  min-height: 80vh;
-  background-color: $grey;
+  min-height: 95vh;
+  background: rgb(255,191,105);
+background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 32%, rgba(255,170,51,1) 61%);
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
@@ -70,72 +79,95 @@ body {
   }
 }
 
-.elevator-cont {
-  height: $elevatorHeight;
+.building-cont {
+  box-sizing: content-box;
+  width: $buildingWidth;
+  height: $buildingHeight;
   display: flex;
   flex-flow: row nowrap;
-}
-
-.elevator{
-  width: $elevatorWidth;
-  .floor, .shaft{
-    width: 100%;
-    height: calc($elevatorHeight / 9);
-  }
-  .floor{
-    background-color: $grey-light;
-    @include FlexRow(nowrap, center, flex-end);
-    border: 1px solid $black-light;
-
-  }
-  .shaft{
-    background-color: $black-light;
-    display: flex;
-    justify-content: center;
-    align-items: center
-  }
-  .cabin {
-    width: 35px;
-    height: 65%;
-  }
-  .open {
-    background-color: green;
-  }
-  .closed {
-    background-color: red;
-}
+  border: 6px solid $grey-light;
 }
 
 .floors-cont{
-  width: calc($elevatorWidth * 2);
-  height: $elevatorHeight;
+  width: 100%;
+  height: $buildingHeight;
   background-color: red;
   .floor, .shaft{
     width: 100%;
-    height: calc($elevatorHeight / 9); 
+    height: calc($buildingHeight / 9); 
   }
   .floor{
     @include FlexRow(nowrap, space-between, center);
+    background-color: $blue;
+    padding: 0 20px;
+    height: calc($buildingHeight / 9);
+    p {
+      @include FlexRow(nowrap, center, center);
+      width: 40px;
+      height: 40px;
+      padding: 20px;
+      color: $blue-dark;
+      background-color: $yellow-light;
+      border-radius: 50%;
+      border: 2px solid $white;
+      font-size: 26px;
+      font-family: 'Michroma', sans-serif;
+    }
+  }
+  .shaft{
     background-color: $grey-light;
+  }
+}
+
+.elevator{
+  width: 50%;
+  .floor, .shaft{
+    width: 100%;
+    height: calc($buildingHeight / 9);
+  }
+  .floor{
+    background-color: $blue-dark;
+    @include FlexRow(nowrap, flex-end, flex-end);
     .button-cont{
-      .up, .down{
-        width: 25px;
-        height: 25px;
-        color: black;
-        text-align: center;
+      .button {
+        width: 12px;
+        height: 12px;
+        background-color: $black-light;
       }
-      .up{
-        background-color: burlywood;
-      }
-      .down{
-        background-color: lightblue;
+      .on {
+        background-color: green;
       }
     }
     .button-cont:hover{
       cursor: pointer;
     }
+    .cabin {
+      width: 35px;
+      height: 40px;
+      margin: 0 20px;
+      transition: all 0.2s ease-out;
+    }
+    .present {
+      background-color: green;
+    }
+    .absent {
+      background-color: $grey-dark;
+    }
   }
   .shaft{
-    background-color: $black-light;
+    background-color: #666666;
+    @include FlexRow(nowrap, flex-end, flex-start);
+    .lightbulb {
+      width: 10px;
+      height: 10px;
+      margin: 10px 20px;
+      border-radius: 50%;
+    }
+    .on{
+      background-color: $yellow;
+    }
+    .off {
+      background-color: $black-light;
+    }
   }
 }
