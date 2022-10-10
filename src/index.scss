@@ -5,6 +5,7 @@ $buildingHeight: 594px;
 $buildingWidth: 500px;
 
 $ElevatorFloor: './img/ElevatorFloor.png';
+$roof: './img/rooftest.png';
 
 * {
   margin: 0;
@@ -14,7 +15,7 @@ $ElevatorFloor: './img/ElevatorFloor.png';
 
 
 body {
-  background-color: $black;
+  background-color: $black-light;
   color: $white;
   font-family: 'Montserrat', sans-serif;
 }
@@ -29,27 +30,38 @@ body {
   width: 100%;
   min-height: 95vh;
   background: rgb(255,191,105);
-background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 32%, rgba(255,170,51,1) 61%);
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-end;
+  background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 32%, rgba(255,170,51,1) 61%);
+  @include FlexRow(nowrap, center, flex-end);
 }
 
+.queue{
+  width: 100px;
+  color: $black-light;
+}
 
+.building-section {
+  margin: 0 75px;
+}
+.roof{
+  width: 516px;
+  height: 20px;
+  margin-bottom: -2px;
+  background-image: url($roof);
+  background-repeat: no-repeat;
+}
 
 .building-cont {
+  @include FlexRow(nowrap, center, center);
   box-sizing: content-box;
   width: $buildingWidth;
   height: $buildingHeight;
-  display: flex;
-  flex-flow: row nowrap;
-  border: 6px solid $grey-light;
-  border-radius: 5px 5px 0 0;
+  border: 8px solid $grey-light;
+  border-top-left-radius: 4px;
 }
 
 .floors-cont{
   width: 100%;
-  height: $buildingHeight;
+  height: 100%;
   .floor, .shaft{
     width: 100%;
     height: calc($buildingHeight / 9); 
@@ -94,12 +106,16 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
         background-color: $green;
         border: 2px solid $black-light;
         border-radius: 50%;
+        transition: all 0.2s ease-in-out;
       }
       .active {
         background-color: $red;
       }
       .inactive {
         background-color: $yellow-light;
+      }
+      .currentFloor{
+        background-color: $grey-light;
       }
     }
     .button-cont:hover{
@@ -109,7 +125,7 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
       width: 35px;
       height: 40px;
       margin: 0 20px 0 10px;
-      transition: all 0.2s ease-out;
+      transition: all 0.2s ease-in-out;
       border: 2px solid $black-light;
       border-bottom: none;
     }
@@ -128,6 +144,7 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
       height: 10px;
       margin: 10px 20px;
       border-radius: 50%;
+      transition: all 0.2s ease-in-out;
     }
     .on{
       background-color: $yellow;
@@ -139,23 +156,30 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
 }
 
 .elevator-control {
-  width: 200px;
+  // @include FlexRow(wrap, space-between, center);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Abel', sans-serif;
+  width: 175px;
   height: 200px;
-  background-color: $black;
+  padding: 35px;
+  background-color: $blue;
+  border: 2px solid $black-light;
+  border-radius: 10px;
   margin-bottom: calc($buildingHeight / 3);
-  @include FlexRow(nowrap, center, center);
-  div{
-    @include FlexRow(wrap, space-between, center);
-    width: 45%;
-    .ground{
-      flex-basis: 100%;
-    }
     .button{
       width: 35px;
       height: 35px;
       margin: 3px;
       color: $black-light;
       font-weight: 400;
+      font-size: 28px;
+      border-radius: 10px;
+      border: 2px solid $white;
+      transition: all 0.2s ease-in-out;
       @include FlexRow(nowrap, center, center)
     }
     .active {
@@ -166,9 +190,13 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
     }
     .activeRequest {
       background-color: $yellow;
+      color: $black-light;
+    }
+    .currentFloor{
+      background-color: $black-light;
+      color: $yellow-light;
     }
     .button:hover {
       cursor: pointer;
     }
   }
-}

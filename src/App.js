@@ -19,6 +19,8 @@ function App() {
   function checkActiveRequest(){
     if(!activeRequest && activeRequest !== 0){
       return true
+    } else {
+      return false
     }
   }
 
@@ -41,7 +43,7 @@ function App() {
   
   function moveElevator(){
     const currentLocation = elevatorLocation
-    const nextLocation = queue[0]
+    const nextLocation = queue.length > 0 ? queue[0] : 0
     setActiveRequest(nextLocation)
     setIsDoorOpen(false)
     let counter = 0
@@ -96,9 +98,10 @@ function App() {
     if(queue.length > 0){
         if(checkActiveRequest()){
           moveElevator()
-        } else if(activeRequest) {
         }
-    }
+    } else if ((!activeRequest && activeRequest !== 0) && elevatorLocation !== 0){
+      moveElevator()
+    } 
   }, 1000)
 
   return (
@@ -110,6 +113,8 @@ function App() {
       <p>Queue: </p>
       {queue.map(item => (<p>{item}</p>))}
     </div>
+      <section className="building-section">
+      <div className="roof"></div>
       <div className="building-cont">
         <div className="floors-cont">
         {revFloors.map(floor => {
@@ -131,7 +136,10 @@ function App() {
             return (
               <div className="floor">
               <div onClick={() => callElevator(floor)} className="button-cont">
-                  <div className={`button ${queue.includes(floor) ? 'active' : 'inactive'}`}></div>
+                  <div className=
+                  {`button ${queue.includes(floor) ? 'active' : 'inactive'}
+                  ${((!activeRequest && activeRequest !== 0) && (floor === elevatorLocation && queue.length === 0)) ? 'currentFloor' : ''}`}>
+                  </div>
                 </div> 
                 <div className={`cabin ${(isDoorOpen && floor === elevatorLocation) ? 'present' : 'absent'}`} />
               </div>)
@@ -144,13 +152,18 @@ function App() {
         })}
         </div>
       </div>
+      </section>
       <div className={`elevator-control ${isDoorOpen ? 'open' : 'closed'}`}>
-        <div>
           {elevatorButtons.map(floor => {
-            return (<div onClick={() => callElevator(floor)} className={`button ${queue.includes(floor) ? 'active' : 'inactive'} ${floor === activeRequest && 'activeRequest'}`}>{floor}</div>)
+            return (
+              <div onClick={() => callElevator(floor)} 
+              className=
+              {`button ${queue.includes(floor) ? 'active' : 'inactive'} 
+              ${floor === activeRequest ? 'activeRequest' : 'inactiveRequest'}
+              ${((!activeRequest && activeRequest !== 0) && (floor === elevatorLocation && queue.length === 0)) ? 'currentFloor' : ''}`}>
+              {floor}</div>
+            )
           })}
-          <p>{elevatorLocation}</p>
-        </div>
       </div>
     </div>
   );
