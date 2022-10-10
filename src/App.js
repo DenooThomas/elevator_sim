@@ -5,11 +5,11 @@ import { nanoid } from 'nanoid'
 function App() {
 
   const floors = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
+  const revFloors = floors.reverse()
   const elevatorButtons = [0,1,2,3,4]
   const elevatorTick = 1000
   const elevatorWaitTime = 5000
-  const revFloors = floors.reverse()
-
+  
   const [elevatorLocation, setElevatorLocation] = useState(0)
   const [activeRequest, setActiveRequest] = useState()
   const [isDoorOpen, setIsDoorOpen] = useState(true)

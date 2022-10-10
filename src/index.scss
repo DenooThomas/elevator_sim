@@ -1,17 +1,5 @@
 @import "./partials/flexer";
-
-$black: #110f0f;
-$black-light: #201D1D;
-$white: #EBEBEB;
-$grey: #666666;
-$grey-light: #757575;
-$grey-dark: #464646;
-$yellow: #FFC000;
-$yellow-light: #EED595;
-$blue: #07c7c7;
-$blue-dark: #07B0B0;
-$orange-light: #D29F94;
-
+@import "./partials/colors";
 
 $buildingHeight: 594px;
 $buildingWidth: 500px;
@@ -130,12 +118,15 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
     @include FlexRow(nowrap, flex-end, flex-end);
     .button-cont{
       .button {
-        width: 12px;
-        height: 12px;
-        background-color: $black-light;
+        width: 15px;
+        height: 15px;
+        margin-bottom: 15px;
+        background-color: $red;
+        border: 2px solid $black-light;
+        border-radius: 50%;
       }
       .on {
-        background-color: green;
+        background-color: $green;
       }
     }
     .button-cont:hover{
@@ -144,11 +135,13 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
     .cabin {
       width: 35px;
       height: 40px;
-      margin: 0 20px;
+      margin: 0 20px 0 10px;
       transition: all 0.2s ease-out;
+      border: 2px solid $black-light;
+      border-bottom: none;
     }
     .present {
-      background-color: green;
+      background-color: $blue-light;
     }
     .absent {
       background-color: $grey-dark;
@@ -156,7 +149,7 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
   }
   .shaft{
     background-color: #666666;
-    @include FlexRow(nowrap, flex-end, flex-start);
+    @include FlexRow(nowrap, flex-start, flex-start);
     .lightbulb {
       width: 10px;
       height: 10px;
@@ -167,7 +160,7 @@ background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 
       background-color: $yellow;
     }
     .off {
-      background-color: $black-light;
+      background-color: $black;
     }
   }
 }
