@@ -40,9 +40,9 @@ body {
 
 .roof {
   width: 516px;
-  height: 20px;
+  height: 8px;
   margin-bottom: -2px;
-  background-image: url("./img/rooftest.png");
+  background-image: url("./img/roofsvg.svg");
   background-repeat: no-repeat;
 }
 
@@ -55,7 +55,8 @@ body {
   width: 500px;
   height: 594px;
   border: 8px solid #757575;
-  border-top-left-radius: 4px;
+  border-bottom: 4px solid #757575;
+  border-radius: 4px 4px 0 0;
 }
 
 .floors-cont {
@@ -71,7 +72,8 @@ body {
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  background-color: #07c7c7;
+  background: rgb(7, 199, 199);
+  background: linear-gradient(97deg, rgb(7, 199, 199) 0%, rgb(7, 199, 199) 63%, rgb(7, 176, 176) 100%);
   padding: 0 20px;
   height: 66px;
 }
@@ -90,25 +92,54 @@ body {
   font-size: 26px;
   font-family: "Michroma", sans-serif;
 }
+.floors-cont .floor .window {
+  box-sizing: content-box;
+  width: 150px;
+  height: 35px;
+  background: rgb(255, 191, 105);
+  background: linear-gradient(145deg, rgb(255, 191, 105) 11%, rgb(255, 179, 71) 61%);
+  transform: skewY(-0.3deg);
+  border: 1px solid #4C4343;
+}
+.floors-cont .floor .window::before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 35px;
+  background-color: #4C4343;
+  margin: 0 auto;
+}
 .floors-cont .shaft {
-  background-color: #757575;
+  background-color: #666666;
 }
 
-.elevator {
+.elevator-cont {
   width: 50%;
 }
-.elevator .floor, .elevator .shaft {
+.elevator-cont .divide {
+  width: 2px;
+  height: 66px;
+  background-color: #666666;
+}
+.elevator-cont .floor, .elevator-cont .shaft {
   width: 100%;
   height: 66px;
 }
-.elevator .floor {
-  background-color: #07B0B0;
+.elevator-cont .floor {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: flex-end;
+  background-color: #07B0B0;
+  overflow: hidden;
+}
+.elevator-cont .elevator {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
   align-items: flex-end;
 }
-.elevator .floor .button-cont .button {
+.elevator-cont .elevator .button-cont .button {
   width: 15px;
   height: 15px;
   margin-bottom: 15px;
@@ -117,53 +148,142 @@ body {
   border-radius: 50%;
   transition: all 0.2s ease-in-out;
 }
-.elevator .floor .button-cont .active {
+.elevator-cont .elevator .button-cont .active {
   background-color: #ED4B45;
 }
-.elevator .floor .button-cont .inactive {
+.elevator-cont .elevator .button-cont .inactive {
   background-color: #EED595;
 }
-.elevator .floor .button-cont .currentFloor {
-  background-color: #757575;
+.elevator-cont .elevator .button-cont .activeRequest {
+  background-color: #666666;
+  color: #EED595;
 }
-.elevator .floor .button-cont:hover {
+.elevator-cont .elevator .button-cont .currentFloor {
+  background-color: #666666;
+  color: #EED595;
+}
+.elevator-cont .elevator .button-cont:hover {
   cursor: pointer;
 }
-.elevator .floor .cabin {
+.elevator-cont .elevator .cabin {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
   width: 35px;
   height: 40px;
-  margin: 0 20px 0 10px;
-  transition: all 0.2s ease-in-out;
+  margin: 0 20px -1px 10px;
   border: 2px solid #4C4343;
-  border-bottom: none;
+  border-bottom: 3px solid #757575;
+  transition: all 0.2s ease-in-out;
+  transform: skewY(0.7deg);
+  overflow: hidden;
+  background-color: #07c7c7;
+  box-sizing: content-box;
 }
-.elevator .floor .present {
-  background-color: #08D9D9;
+.elevator-cont .elevator .cabin::before, .elevator-cont .elevator .cabin::after {
+  content: "";
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: calc(50% + 2px);
+  height: 100%;
+  background-color: grey;
 }
-.elevator .floor .absent {
-  background-color: #666666;
+.elevator-cont .elevator .cabin::before {
+  border-right: 1px solid #4C4343;
 }
-.elevator .shaft {
+.elevator-cont .elevator .cabin.present::before {
+  -webkit-animation: slideDoorLeft 5s;
+          animation: slideDoorLeft 5s;
+}
+.elevator-cont .elevator .cabin::after {
+  border-left: 1px solid #4C4343;
+}
+.elevator-cont .elevator .cabin.present::after {
+  -webkit-animation: slideDoorRight 5s;
+          animation: slideDoorRight 5s;
+}
+.elevator-cont .shaft {
   background-color: #525252;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: flex-start;
 }
-.elevator .shaft .lightbulb {
-  width: 10px;
-  height: 10px;
+.elevator-cont .shaft .lightbulb {
+  width: 7px;
+  height: 7px;
   margin: 10px 20px;
   border-radius: 50%;
   transition: all 0.2s ease-in-out;
 }
-.elevator .shaft .on {
-  background-color: #FFC000;
+.elevator-cont .shaft .on {
+  background-color: #ffcc32;
+  box-shadow: 0 0 15px 1px #ffcc32, 0 0 10px 1px #ffcc32;
 }
-.elevator .shaft .off {
-  background-color: #201D1D;
+.elevator-cont .shaft .off {
+  background-color: #757575;
 }
 
+@-webkit-keyframes slideDoorLeft {
+  0% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDoorLeft {
+  0% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@-webkit-keyframes slideDoorRight {
+  0% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(100%);
+  }
+  60% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideDoorRight {
+  0% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(100%);
+  }
+  60% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 .elevator-control {
   display: flex;
   flex-wrap: wrap;
@@ -171,12 +291,15 @@ body {
   justify-content: space-between;
   align-items: center;
   font-family: "Abel", sans-serif;
-  width: 175px;
+  width: 155px;
   height: 200px;
-  padding: 35px;
-  background-color: #07c7c7;
-  border: 2px solid #4C4343;
-  border-radius: 10px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 2px 5px 16px 0px #4C4343, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid #666666;
   margin-bottom: 198px;
 }
 .elevator-control .button {
@@ -201,12 +324,15 @@ body {
   background-color: #EED595;
 }
 .elevator-control .activeRequest {
-  background-color: #FFC000;
-  color: #4C4343;
+  background-color: #4C4343;
+  color: #EED595;
 }
 .elevator-control .currentFloor {
   background-color: #4C4343;
   color: #EED595;
+}
+.elevator-control .groundfloor {
+  flex-basis: 100%;
 }
 .elevator-control .button:hover {
   cursor: pointer;

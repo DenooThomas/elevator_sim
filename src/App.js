@@ -6,7 +6,7 @@ function App() {
 
   const floors = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
   const revFloors = floors.reverse()
-  const elevatorButtons = [0,1,2,3,4]
+  const elevatorButtons = [4,3,2,1,0]
   const elevatorTick = 1000
   const elevatorWaitTime = 5000
   
@@ -16,7 +16,7 @@ function App() {
   const [isWaiting, setIsWaiting] = useState(false)
   const [queue, setQueue] = useState([])
 
-  function checkActiveRequest(){
+  function noActiveRequests(){
     if(!activeRequest && activeRequest !== 0){
       return true
     } else {
@@ -25,7 +25,7 @@ function App() {
   }
 
   function callElevator(floorNr) {
-    if(isWaiting && checkActiveRequest()){
+    if(isWaiting && noActiveRequests()){
       setTimeout(() => {
         setIsWaiting(false)
       }, elevatorWaitTime)
@@ -46,6 +46,7 @@ function App() {
     const nextLocation = queue.length > 0 ? queue[0] : 0
     setActiveRequest(nextLocation)
     setIsDoorOpen(false)
+    setIsWaiting(false)
     let counter = 0
     if(currentLocation > nextLocation){
       const difference = currentLocation - nextLocation
@@ -54,11 +55,9 @@ function App() {
           clearInterval(loop)
           setIsDoorOpen(true) 
           setIsWaiting(true)
-
           setTimeout(() => {
             setActiveRequest()
           }, elevatorWaitTime)
-
           if(queue.length > 1){
             setTimeout(() => {
               setIsWaiting(false)
@@ -76,11 +75,9 @@ function App() {
           clearInterval(loop)
           setIsDoorOpen(true)
           setIsWaiting(true)
-
           setTimeout(() => {
             setActiveRequest()
           }, elevatorWaitTime)
-
           if(queue.length > 1){
             setTimeout(() => {
               setIsWaiting(false)   
@@ -96,11 +93,11 @@ function App() {
 
   useInterval(() => {
     if(queue.length > 0){
-        if(checkActiveRequest()){
+        if(noActiveRequests()){
           moveElevator()
         }
-    } else if ((!activeRequest && activeRequest !== 0) && elevatorLocation !== 0){
-      moveElevator()
+    } else if ((noActiveRequests()) && elevatorLocation !== 0){
+      callElevator(0)
     } 
   }, 1000)
 
@@ -123,25 +120,29 @@ function App() {
               <React.Fragment>
               <div key={nanoid()} className="floor">
                 <p>{floor}</p>
-                
+                <div className="window"></div>
               </div>
 			        {floor !== 0 && <div className="shaft"></div>}
               </React.Fragment>)
             } else{ return null}
           })}  
         </div>
-        <div className="elevator">
+        <div className="elevator-cont">
           {revFloors.map(floor => {
           if(Number.isInteger(floor)){
             return (
               <div className="floor">
-              <div onClick={() => callElevator(floor)} className="button-cont">
-                  <div className=
-                  {`button ${queue.includes(floor) ? 'active' : 'inactive'}
-                  ${((!activeRequest && activeRequest !== 0) && (floor === elevatorLocation && queue.length === 0)) ? 'currentFloor' : ''}`}>
+                <div className="divide" />
+                <div className="elevator">
+                  <div onClick={() => callElevator(floor)} className="button-cont">
+                      <div className=
+                      {`button ${queue.includes(floor) ? 'active' : 'inactive'} 
+                      ${(floor === activeRequest && isWaiting) ? 'activeRequest' : 'inactiveRequest'}
+                      ${((!activeRequest && activeRequest !== 0) && (floor === elevatorLocation && queue.length === 0)) ? 'currentFloor' : ''}`}>
+                      </div>
+                    </div> 
+                    <div className={`cabin ${(isDoorOpen && floor === elevatorLocation) ? 'present' : 'absent'}`} />
                   </div>
-                </div> 
-                <div className={`cabin ${(isDoorOpen && floor === elevatorLocation) ? 'present' : 'absent'}`} />
               </div>)
           } else {
             return (
@@ -155,14 +156,25 @@ function App() {
       </section>
       <div className={`elevator-control ${isDoorOpen ? 'open' : 'closed'}`}>
           {elevatorButtons.map(floor => {
-            return (
+            if(floor !== 0){
+              return (
               <div onClick={() => callElevator(floor)} 
               className=
               {`button ${queue.includes(floor) ? 'active' : 'inactive'} 
               ${floor === activeRequest ? 'activeRequest' : 'inactiveRequest'}
               ${((!activeRequest && activeRequest !== 0) && (floor === elevatorLocation && queue.length === 0)) ? 'currentFloor' : ''}`}>
               {floor}</div>
-            )
+              )
+            } else if(floor === 0){
+              return (
+              <div onClick={() => callElevator(floor)} 
+              className=
+              {`button groundfloor ${queue.includes(floor) ? 'active' : 'inactive'} 
+              ${floor === activeRequest ? 'activeRequest' : 'inactiveRequest'}
+              ${((!activeRequest && activeRequest !== 0) && (floor === elevatorLocation && queue.length === 0)) ? 'currentFloor' : ''}`}>
+              {floor}</div>
+              )
+            }
           })}
       </div>
     </div>

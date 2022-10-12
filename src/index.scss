@@ -6,6 +6,7 @@ $buildingWidth: 500px;
 
 $ElevatorFloor: './img/ElevatorFloor.png';
 $roof: './img/rooftest.png';
+$roofsvg: './img/roofsvg.svg';
 
 * {
   margin: 0;
@@ -44,9 +45,9 @@ body {
 }
 .roof{
   width: 516px;
-  height: 20px;
+  height: 8px;
   margin-bottom: -2px;
-  background-image: url($roof);
+  background-image: url($roofsvg);
   background-repeat: no-repeat;
 }
 
@@ -56,7 +57,8 @@ body {
   width: $buildingWidth;
   height: $buildingHeight;
   border: 8px solid $grey-light;
-  border-top-left-radius: 4px;
+  border-bottom: 4px solid $grey-light;
+  border-radius: 4px 4px 0 0;
 }
 
 .floors-cont{
@@ -68,7 +70,8 @@ body {
   }
   .floor{
     @include FlexRow(nowrap, space-between, center);
-    background-color: $blue;
+    background: rgb(7,199,199);
+    background: linear-gradient(97deg, rgba(7,199,199,1) 0%, rgba(7,199,199,1) 63%, rgba(7,176,176,1) 100%);
     padding: 0 20px;
     height: calc($buildingHeight / 9);
     p {
@@ -83,21 +86,48 @@ body {
       font-size: 26px;
       font-family: 'Michroma', sans-serif;
     }
+    .window {
+      box-sizing: content-box;
+      width: 150px;
+      height: 35px;
+      background: rgb(255,191,105);
+      background: linear-gradient(145deg, rgba(255,191,105,1) 11%, rgba(255,179,71,1) 61%);
+      transform: skewY(-0.3deg);
+      border: 1px solid $black-light;
+    }
+    .window::before{
+      content: '';
+      display: block;
+      width: 1px;
+      height: 35px;
+      background-color: $black-light;
+      margin: 0 auto;
+    }
   }
   .shaft{
-    background-color: $grey-light;
+    background-color: $grey;
   }
 }
 
-.elevator{
+
+.elevator-cont{
   width: 50%;
+  .divide {
+    width: 2px;
+    height: calc($buildingHeight / 9);
+    background-color: $grey;
+  }
   .floor, .shaft{
     width: 100%;
     height: calc($buildingHeight / 9);
   }
   .floor{
-    background-color: $blue-dark;
-    @include FlexRow(nowrap, flex-end, flex-end);
+    @include FlexRow(nowrap,space-between, flex-end);
+    background-color: #07B0B0;
+    overflow: hidden;
+  }
+  .elevator {
+    @include FlexRow(nowrap, space-between, flex-end);
     .button-cont{
       .button {
         width: 15px;
@@ -114,61 +144,121 @@ body {
       .inactive {
         background-color: $yellow-light;
       }
+      .activeRequest {
+        background-color: $grey;
+        color: $yellow-light;
+      }
       .currentFloor{
-        background-color: $grey-light;
+        background-color: $grey;
+        color: $yellow-light;
       }
     }
     .button-cont:hover{
       cursor: pointer;
     }
     .cabin {
+      @include FlexRow(nowrap, center, center);
       width: 35px;
       height: 40px;
-      margin: 0 20px 0 10px;
-      transition: all 0.2s ease-in-out;
+      margin: 0 20px -1px 10px;
       border: 2px solid $black-light;
-      border-bottom: none;
+      border-bottom: 3px solid $grey-light;
+      transition: all 0.2s ease-in-out;
+      transform: skewY(0.7deg);
+      overflow: hidden;
+      background-color: $blue;
+      box-sizing: content-box;
     }
-    .present {
-      background-color: $blue-light;
+    .cabin::before, .cabin::after{
+      content: '';
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      width: calc(50% + 2px);
+      height: calc(100%);
+      background-color: grey;
     }
-    .absent {
-      background-color: $grey;
+    .cabin::before{
+      border-right: 1px solid $black-light ;
+    }
+    .cabin.present::before{
+      animation: slideDoorLeft 5s;
+    }
+    .cabin::after{
+      border-left: 1px solid $black-light ;
+    }
+    .cabin.present::after{
+      animation: slideDoorRight 5s;
     }
   }
   .shaft{
     background-color: #525252;
     @include FlexRow(nowrap, flex-start, flex-start);
     .lightbulb {
-      width: 10px;
-      height: 10px;
+      width: 7px;
+      height: 7px;
       margin: 10px 20px;
       border-radius: 50%;
       transition: all 0.2s ease-in-out;
     }
     .on{
       background-color: $yellow;
+      box-shadow:
+      0 0 15px 1px #ffcc32,  /* inner white */
+      0 0 10px 1px #ffcc32,  /* inner white */
     }
     .off {
-      background-color: $black;
+      background-color: $grey-light;
     }
+  }
+}
+@keyframes slideDoorLeft {
+  0% {
+      transform: translateX(0);
+  }
+  40%{
+      transform: translateX(-100%);
+  }
+  60%{
+      transform: translateX(-100%);
+  }
+  100%{
+      transform: translateX(0);
+  }
+}
+
+@keyframes slideDoorRight {
+  0% {
+      transform: translateX(0);
+  }
+  40%{
+      transform: translateX(100%);
+  }
+  60%{
+      transform: translateX(100%);
+  }
+  100%{
+      transform: translateX(0);
   }
 }
 
 .elevator-control {
-  // @include FlexRow(wrap, space-between, center);
   display: flex;
   flex-wrap: wrap;
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   font-family: 'Abel', sans-serif;
-  width: 175px;
+  width: 155px;
   height: 200px;
-  padding: 35px;
-  background-color: $blue;
-  border: 2px solid $black-light;
-  border-radius: 10px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 2px 5px 16px 0px $black-light, 5px 5px 15px 5px rgba(0,0,0,0);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid $grey;
   margin-bottom: calc($buildingHeight / 3);
     .button{
       width: 35px;
@@ -189,12 +279,15 @@ body {
       background-color: $yellow-light;
     }
     .activeRequest {
-      background-color: $yellow;
-      color: $black-light;
+      background-color: $black-light;
+      color: $yellow-light;
     }
     .currentFloor{
       background-color: $black-light;
       color: $yellow-light;
+    }
+    .groundfloor {
+      flex-basis: 100%;
     }
     .button:hover {
       cursor: pointer;
