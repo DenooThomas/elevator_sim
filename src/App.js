@@ -42,18 +42,18 @@ function App() {
   }
   
   function moveElevator(){
+    setIsDoorOpen(false)
+    setIsWaiting(false)
     const currentLocation = elevatorLocation
     const nextLocation = queue.length > 0 ? queue[0] : 0
     setActiveRequest(nextLocation)
-    setIsDoorOpen(false)
-    setIsWaiting(false)
-    let counter = 0
     let difference
     if(currentLocation > nextLocation){
       difference = currentLocation - nextLocation
     } else {
       difference = nextLocation - currentLocation
 	  }
+    let counter = 0
     const loop = setInterval(() => {
       if(currentLocation > nextLocation){
         setElevatorLocation(prevLocation => prevLocation - 0.5)
