@@ -48,47 +48,36 @@ function App() {
     setIsDoorOpen(false)
     setIsWaiting(false)
     let counter = 0
+    let difference
     if(currentLocation > nextLocation){
-      const difference = currentLocation - nextLocation
-      const loop = setInterval(() => {
-        if(counter === (difference * 2) - 1){
-          clearInterval(loop)
-          setIsDoorOpen(true) 
-          setIsWaiting(true)
-          setTimeout(() => {
-            setActiveRequest()
-          }, elevatorWaitTime)
-          if(queue.length > 1){
-            setTimeout(() => {
-              setIsWaiting(false)
-            }, elevatorWaitTime)
-          }
-          setQueue(prevQueue => prevQueue.filter(item => item !== nextLocation))    
-        }
-        setElevatorLocation(prevLocation => prevLocation - 0.5)
-        counter++
-      }, elevatorTick)
+      difference = currentLocation - nextLocation
     } else {
-      const difference = nextLocation - currentLocation
-      const loop = setInterval(() => {
-        if(counter === (difference * 2) - 1){
-          clearInterval(loop)
-          setIsDoorOpen(true)
-          setIsWaiting(true)
-          setTimeout(() => {
-            setActiveRequest()
-          }, elevatorWaitTime)
-          if(queue.length > 1){
-            setTimeout(() => {
-              setIsWaiting(false)   
-            }, elevatorWaitTime)
-          }    
-          setQueue(prevQueue => prevQueue.filter(item => item !== nextLocation))
-        }
+      difference = nextLocation - currentLocation
+	  }
+    const loop = setInterval(() => {
+      if(currentLocation > nextLocation){
+        setElevatorLocation(prevLocation => prevLocation - 0.5)
+      } else {
         setElevatorLocation(prevLocation => prevLocation + 0.5)
-        counter++
-      }, elevatorTick)
-    }
+      }
+
+      if(counter === (difference * 2) - 1){
+        clearInterval(loop)
+        setIsDoorOpen(true)
+        setIsWaiting(true)
+        setQueue(prevQueue => prevQueue.filter(item => item !== nextLocation))
+        setTimeout(() => {
+          setActiveRequest()
+        }, elevatorWaitTime)
+
+        if(queue.length > 1){
+          setTimeout(() => {
+            setIsWaiting(false)   
+          }, elevatorWaitTime)
+        }     
+      }
+      counter++
+    }, elevatorTick)
   }
 
   useInterval(() => {
@@ -175,6 +164,7 @@ function App() {
               {floor}</div>
               )
             }
+            return null
           })}
       </div>
     </div>

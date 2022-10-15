@@ -4,8 +4,6 @@
 $buildingHeight: 594px;
 $buildingWidth: 500px;
 
-$ElevatorFloor: './img/ElevatorFloor.png';
-$roof: './img/rooftest.png';
 $roofsvg: './img/roofsvg.svg';
 
 * {
@@ -200,7 +198,7 @@ body {
       height: 7px;
       margin: 10px 20px;
       border-radius: 50%;
-      transition: all 0.2s ease-in-out;
+      transition: all 0.4s ease-in-out;
     }
     .on{
       background-color: $yellow;
