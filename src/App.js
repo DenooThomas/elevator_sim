@@ -92,13 +92,6 @@ function App() {
 
   return (
     <div className="main-cont">
-    <div className="queue">
-      <p>isWaiting: {isWaiting ? 'true' : 'false'}</p>
-      <p>isDoorOpen: {isDoorOpen ? 'true' : 'false'}</p>
-      <p>ActiveRequest: {activeRequest}</p>
-      <p>Queue: </p>
-      {queue.map(item => (<p>{item}</p>))}
-    </div>
       <section className="building-section">
       <div className="roof"></div>
       <div className="building-cont">
