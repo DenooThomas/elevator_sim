@@ -23,12 +23,14 @@ function App() {
   }
 
   function callElevator(floorNr) {
-    if (isWaiting && noActiveRequests()) {
-      setTimeout(() => {
-        setIsWaiting(false);
-      }, elevatorWaitTime);
-    } else {
-      setQueue((prevQueue) => [...prevQueue, floorNr]);
+    if (floorNr !== elevatorLocation) {
+      if (isWaiting && noActiveRequests()) {
+        setTimeout(() => {
+          setIsWaiting(false);
+        }, elevatorWaitTime);
+      } else {
+        setQueue((prevQueue) => [...prevQueue, floorNr]);
+      }
     }
   }
 
