@@ -139,7 +139,7 @@ body {
   justify-content: space-between;
   align-items: flex-end;
 }
-.elevator-cont .elevator .button-cont .button {
+.elevator-cont .elevator .button {
   width: 15px;
   height: 15px;
   margin-bottom: 15px;
@@ -148,17 +148,13 @@ body {
   border-radius: 50%;
   transition: all 0.2s ease-in-out;
 }
-.elevator-cont .elevator .button-cont .active {
+.elevator-cont .elevator .active {
   background-color: #ED4B45;
 }
-.elevator-cont .elevator .button-cont .inactive {
+.elevator-cont .elevator .inactive {
   background-color: #EED595;
 }
-.elevator-cont .elevator .button-cont .activeRequest {
-  background-color: #666666;
-  color: #EED595;
-}
-.elevator-cont .elevator .button-cont .currentFloor {
+.elevator-cont .elevator .currentFloor {
   background-color: #666666;
   color: #EED595;
 }

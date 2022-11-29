@@ -126,31 +126,27 @@ body {
   }
   .elevator {
     @include FlexRow(nowrap, space-between, flex-end);
-    .button-cont{
-      .button {
-        width: 15px;
-        height: 15px;
-        margin-bottom: 15px;
-        background-color: $green;
-        border: 2px solid $black-light;
-        border-radius: 50%;
-        transition: all 0.2s ease-in-out;
-      }
-      .active {
-        background-color: $red;
-      }
-      .inactive {
-        background-color: $yellow-light;
-      }
-      .activeRequest {
-        background-color: $grey;
-        color: $yellow-light;
-      }
-      .currentFloor{
-        background-color: $grey;
-        color: $yellow-light;
-      }
+
+    .button {
+      width: 15px;
+      height: 15px;
+      margin-bottom: 15px;
+      background-color: $green;
+      border: 2px solid $black-light;
+      border-radius: 50%;
+      transition: all 0.2s ease-in-out;
     }
+    .active {
+      background-color: $red;
+    }
+    .inactive {
+      background-color: $yellow-light;
+    }
+    .currentFloor{
+      background-color: $grey;
+      color: $yellow-light;
+    }
+
     .button-cont:hover{
       cursor: pointer;
     }
