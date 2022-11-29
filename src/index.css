@@ -147,6 +147,7 @@ body {
   border: 2px solid #4C4343;
   border-radius: 50%;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 .elevator-cont .elevator .active {
   background-color: #ED4B45;
